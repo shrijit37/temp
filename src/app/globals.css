@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+@theme {
+  /* ── Industrial-premium palette: charcoal + molten steel ── */
+  --color-ink: #0a0a0c;
+  --color-coal: #101014;
+  --color-panel: #16161b;
+  --color-panel-2: #1c1c22;
+  --color-bone: #f2f3f5;
+  --color-steel: #9aa0a8;
+  --color-steel-dim: #5c6169;
+  --color-line: rgba(244, 245, 246, 0.09);
+  --color-line-strong: rgba(244, 245, 246, 0.16);
+  --color-molten: #ff5a1f;
+  --color-ember: #ff8a3d;
+
+  --font-display: "Satoshi", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --animate-marquee: marquee 32s linear infinite;
+  --animate-marquee-slow: marquee 48s linear infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    overflow-x: hidden;
+    background: var(--color-ink);
+  }
+
+  ::selection {
+    background: var(--color-molten);
+    color: var(--color-ink);
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-ink);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #26262c;
+    border-radius: 8px;
+    border: 2px solid var(--color-ink);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #33333b;
+  }
+}
+
+/* Film-grain noise overlay — sits above backgrounds, below content */
+@utility noise {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+/* Metallic steel text — brushed gradient */
+@utility steel-text {
+  background: linear-gradient(180deg, #f4f5f6 0%, #c6cbd2 38%, #767c85 72%, #a7adb5 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Molten accent text */
+@utility molten-text {
+  background: linear-gradient(92deg, #ff8a3d 0%, #ff5a1f 55%, #ff3d1f 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Fine grid hairlines for section backgrounds */
+@utility grid-hairlines {
+  background-image:
+    linear-gradient(to right, rgba(244, 245, 246, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(244, 245, 246, 0.035) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+/* Vertical tracking hairlines that fade at the edges */
+@utility v-hairline {
+  background: linear-gradient(to bottom, transparent, var(--color-line-strong) 18%, var(--color-line-strong) 82%, transparent);
+}
+
+@utility mask-fade-x {
+  -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+}
