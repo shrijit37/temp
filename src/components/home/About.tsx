@@ -5,11 +5,11 @@ import ScrollReveal from "@/components/reactbits/ScrollReveal";
 import SectionLabel from "@/components/ui/SectionLabel";
 import { company } from "@/data/company";
 
-// Inline typography images (RNG component) — pill images embedded in the headline
+// Inline typography images — pill images embedded in the headline
 const INLINE_IMAGES = [
-  { src: "/images/prod-alu-strip.jpg", alt: "Aluminium strip", cls: "w-20 sm:w-28 h-8 sm:h-11" },
-  { src: "/images/hero-copper.jpg", alt: "Copper strip", cls: "w-24 sm:w-36 h-9 sm:h-12" },
-  { src: "/images/prod-chequered.jpg", alt: "Chequered sheet", cls: "w-16 sm:w-24 h-7 sm:h-10" },
+  { src: "/images/prod-alu-strip.jpg", alt: "Aluminium strip", cls: "w-14 sm:w-28 h-6 sm:h-11" },
+  { src: "/images/hero-copper.jpg", alt: "Copper strip", cls: "w-16 sm:w-36 h-7 sm:h-12" },
+  { src: "/images/prod-alu-flat.jpg", alt: "Aluminium flat bar", cls: "w-12 sm:w-24 h-5 sm:h-10" },
 ];
 
 export default function About() {
@@ -20,33 +20,33 @@ export default function About() {
       <div className="max-w-7xl mx-auto px-6 sm:px-10">
         <SectionLabel index="01" label="Who we are" className="mb-6" />
 
-        <h2 className="font-display font-black uppercase tracking-tight leading-[0.95] text-[clamp(2rem,5.4vw,4.75rem)] max-w-6xl">
+        <h2 className="font-display font-black uppercase tracking-tight leading-[1.05] sm:leading-[0.95] text-[clamp(1.85rem,5.4vw,4.75rem)] max-w-6xl">
           Aluminium &amp; copper,
           <br className="hidden sm:block" />
           in every form you{" "}
-          <span className="inline-block align-middle mx-2 overflow-hidden rounded-full">
+          <span className="inline-block align-middle mx-1.5 sm:mx-2 overflow-hidden rounded-full">
             <img
-              src={`/images/prod-alu-strip.jpg`}
+              src={INLINE_IMAGES[0].src}
               alt={INLINE_IMAGES[0].alt}
               className={`object-cover grayscale contrast-125 ${INLINE_IMAGES[0].cls}`}
               draggable={false}
             />
           </span>
-          build with
-          <span className="inline-block align-middle mx-2 overflow-hidden rounded-full">
+          build with{" "}
+          <span className="inline-block align-middle mx-1.5 sm:mx-2 overflow-hidden rounded-full">
             <img
-              src={`/images/hero-copper.jpg`}
+              src={INLINE_IMAGES[1].src}
               alt={INLINE_IMAGES[1].alt}
               className={`object-cover grayscale contrast-125 ${INLINE_IMAGES[1].cls}`}
               draggable={false}
             />
           </span>
-          — bus bars, strips, sheets,
+          — bus bars, flat bars, strips,
           <br className="hidden sm:block" />
-          angles &amp; sections
-          <span className="inline-block align-middle mx-2 overflow-hidden rounded-full">
+          rods &amp; sheets{" "}
+          <span className="inline-block align-middle mx-1.5 sm:mx-2 overflow-hidden rounded-full">
             <img
-              src={`/images/prod-chequered.jpg`}
+              src={INLINE_IMAGES[2].src}
               alt={INLINE_IMAGES[2].alt}
               className={`object-cover grayscale contrast-125 ${INLINE_IMAGES[2].cls}`}
               draggable={false}

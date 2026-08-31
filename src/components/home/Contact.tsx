@@ -8,24 +8,67 @@ import { company } from "@/data/company";
 const MATERIALS = [
   "Aluminium Bus Bar",
   "Copper Bus Bar",
-  "Aluminium Strip",
-  "Aluminium Chequered Sheet",
-  "Aluminium Angle / Section",
   "Aluminium Flat Bar",
-  "Aluminium Sheet / Coil",
-  "Copper Plate / Strip",
+  "Copper Flat Bar",
+  "Aluminium Strip",
+  "Copper Strip",
+  "Aluminium Rods",
+  "Copper Rods",
+  "Aluminium Sheets",
+  "Copper Sheets",
+  "GI Strip",
   "Other / not sure yet",
 ];
 
 export default function Contact() {
   const [form, setForm] = useState({ name: "", phone: "", material: MATERIALS[0], qty: "", message: "" });
   const [sent, setSent] = useState(false);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
+  const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [k]: e.target.value });
+    // Clear error when user starts typing
+    if (errors[k]) {
+      setErrors({ ...errors, [k]: "" });
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors: { [key: string]: string } = {};
+
+    // Name validation
+    if (!form.name.trim()) {
+      newErrors.name = "Name is required";
+    } else if (form.name.trim().length < 2) {
+      newErrors.name = "Name must be at least 2 characters";
+    }
+
+    // Phone validation
+    if (!form.phone.trim()) {
+      newErrors.phone = "Phone number is required";
+    } else if (!/^[+]?[\d\s-]{10,}$/.test(form.phone.replace(/\s/g, ""))) {
+      newErrors.phone = "Please enter a valid phone number";
+    }
+
+    // Quantity validation
+    if (!form.qty.trim()) {
+      newErrors.qty = "Quantity is required";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+
     const body = [
       `Name: ${form.name}`,
       `Phone: ${form.phone}`,
@@ -39,6 +82,8 @@ export default function Contact() {
     // WhatsApp is the fast channel for wholesale enquiries
     const wa = (company.contact.phone2 || company.contact.phone).replace(/\D/g, "");
     window.open(`https://wa.me/${wa}?text=${encodeURIComponent(body)}`, "_blank");
+
+    setIsSubmitting(false);
     setSent(true);
     setTimeout(() => setSent(false), 5000);
   };
@@ -70,33 +115,40 @@ export default function Contact() {
             className="lg:col-span-7 border border-line-strong rounded-3xl bg-ink/70 backdrop-blur-xl p-7 sm:p-10"
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              <label className="block">
+              <label className="block" htmlFor="name">
                 <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-steel-dim">Your name</span>
                 <input
-                  required
+                  id="name"
                   value={form.name}
                   onChange={set("name")}
                   placeholder="e.g. Rajesh Kumar"
-                  className="mt-2 w-full bg-coal border border-line rounded-xl px-4 py-3.5 text-sm text-bone placeholder:text-steel-dim focus:outline-none focus:border-molten transition-colors duration-300"
+                  className={`mt-2 w-full bg-coal border rounded-xl px-4 py-3.5 text-base sm:text-sm text-bone placeholder:text-steel-dim focus:outline-none transition-colors duration-300 ${
+                    errors.name ? "border-error focus:border-error" : "border-line focus:border-molten"
+                  }`}
                 />
+                {errors.name && <p className="mt-1.5 text-xs text-error-light">{errors.name}</p>}\
               </label>
-              <label className="block">
+              <label className="block" htmlFor="phone">
                 <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-steel-dim">Phone / WhatsApp</span>
                 <input
-                  required
+                  id="phone"
                   type="tel"
                   value={form.phone}
                   onChange={set("phone")}
                   placeholder="+91 ..."
-                  className="mt-2 w-full bg-coal border border-line rounded-xl px-4 py-3.5 text-sm text-bone placeholder:text-steel-dim focus:outline-none focus:border-molten transition-colors duration-300"
+                  className={`mt-2 w-full bg-coal border rounded-xl px-4 py-3.5 text-base sm:text-sm text-bone placeholder:text-steel-dim focus:outline-none transition-colors duration-300 ${
+                    errors.phone ? "border-error focus:border-error" : "border-line focus:border-molten"
+                  }`}
                 />
+                {errors.phone && <p className="mt-1.5 text-xs text-error-light">{errors.phone}</p>}
               </label>
-              <label className="block">
+              <label className="block" htmlFor="material">
                 <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-steel-dim">Material</span>
                 <select
+                  id="material"
                   value={form.material}
                   onChange={set("material")}
-                  className="mt-2 w-full bg-coal border border-line rounded-xl px-4 py-3.5 text-sm text-bone focus:outline-none focus:border-molten transition-colors duration-300"
+                  className="mt-2 w-full bg-coal border border-line rounded-xl px-4 py-3.5 text-base sm:text-sm text-bone focus:outline-none focus:border-molten transition-colors duration-300"
                 >
                   {MATERIALS.map((m) => (
                     <option key={m} value={m} className="bg-coal">
@@ -105,31 +157,52 @@ export default function Contact() {
                   ))}
                 </select>
               </label>
-              <label className="block">
+              <label className="block" htmlFor="quantity">
                 <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-steel-dim">Quantity / size</span>
                 <input
+                  id="quantity"
                   value={form.qty}
                   onChange={set("qty")}
                   placeholder="e.g. 100 kg, 6 m lengths"
-                  className="mt-2 w-full bg-coal border border-line rounded-xl px-4 py-3.5 text-sm text-bone placeholder:text-steel-dim focus:outline-none focus:border-molten transition-colors duration-300"
+                  className={`mt-2 w-full bg-coal border rounded-xl px-4 py-3.5 text-base sm:text-sm text-bone placeholder:text-steel-dim focus:outline-none transition-colors duration-300 ${
+                    errors.qty ? "border-error focus:border-error" : "border-line focus:border-molten"
+                  }`}
                 />
+                {errors.qty && <p className="mt-1.5 text-xs text-error-light">{errors.qty}</p>}
               </label>
             </div>
-            <label className="block mt-5">
+            <label className="block mt-5" htmlFor="message">
               <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-steel-dim">Anything else</span>
               <textarea
+                id="message"
                 rows={4}
                 value={form.message}
                 onChange={set("message")}
                 placeholder="Grade, finish, delivery deadline…"
-                className="mt-2 w-full bg-coal border border-line rounded-xl px-4 py-3.5 text-sm text-bone placeholder:text-steel-dim focus:outline-none focus:border-molten transition-colors duration-300 resize-none"
+                className="mt-2 w-full bg-coal border border-line rounded-xl px-4 py-3.5 text-base sm:text-sm text-bone placeholder:text-steel-dim focus:outline-none focus:border-molten transition-colors duration-300 resize-none"
               />
             </label>
             <button
               type="submit"
-              className="mt-7 w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-molten text-ink font-bold text-base px-10 py-4 transition-all duration-300 hover:bg-ember hover:shadow-[0_0_44px_rgba(255,90,31,0.4)] active:scale-[0.98]"
+              disabled={isSubmitting || sent}
+              className="mt-7 w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-molten text-ink font-bold text-base px-10 py-4 transition-all duration-300 hover:bg-ember hover:shadow-[0_0_44px_rgba(255,90,31,0.4)] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-molten disabled:hover:shadow-none cursor-pointer"
             >
-              {sent ? "Enquiry sent — we'll call you back" : "Request a quote →"}
+              {isSubmitting ? (
+                <>
+                  <svg className="animate-spin h-5 w-5 text-ink" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Sending...
+                </>
+              ) : sent ? (
+                "Enquiry sent — we'll call you back"
+              ) : (
+                <>
+                  Request a quote
+                  <span className="text-xl">→</span>
+                </>
+              )}
             </button>
           </form>
 

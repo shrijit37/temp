@@ -9,31 +9,54 @@ import { company } from "@/data/company";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-// Card stacking on scroll (RNG GSAP paradigm):
-// cards slide up from the bottom and stack into place, pinned to the viewport
 export default function Process() {
   const sectionRef = useRef<HTMLElement>(null);
 
   useGSAP(
     () => {
       const cards = gsap.utils.toArray<HTMLElement>(".process-card");
-      const travel = window.innerHeight * 0.6;
+      if (!cards.length) return;
 
-      cards.forEach((card, i) => {
-        gsap.fromTo(
-          card,
-          { y: travel + i * 40 },
-          {
-            y: 0,
-            ease: "none",
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: "top top",
-              end: () => `+=${travel * (i + 1) * 0.7}`,
-              scrub: 1,
-            },
-          }
-        );
+      const mm = gsap.matchMedia();
+
+      mm.add("(min-width: 768px)", () => {
+        const travel = window.innerHeight * 0.5;
+        cards.forEach((card, i) => {
+          gsap.fromTo(
+            card,
+            { y: travel + i * 40 },
+            {
+              y: 0,
+              ease: "none",
+              scrollTrigger: {
+                trigger: sectionRef.current,
+                start: "top top",
+                end: () => `+=${travel * (i + 1) * 0.7}`,
+                scrub: 1,
+              },
+            }
+          );
+        });
+      });
+
+      mm.add("(max-width: 767px)", () => {
+        cards.forEach((card) => {
+          gsap.fromTo(
+            card,
+            { opacity: 0, y: 24 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.7,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: card,
+                start: "top 90%",
+                toggleActions: "play none none none",
+              },
+            }
+          );
+        });
       });
     },
     { scope: sectionRef }
@@ -53,18 +76,18 @@ export default function Process() {
           {company.process.map((step, i) => (
             <div
               key={step.title}
-              className="process-card relative border border-line rounded-3xl bg-coal/90 backdrop-blur-sm p-8 sm:p-12 will-change-transform"
+              className="process-card relative border border-line rounded-3xl bg-coal/90 backdrop-blur-sm p-7 sm:p-12 will-change-transform"
             >
               <div className="flex items-start justify-between">
-                <span className="font-display font-black text-[clamp(4rem,8vw,7rem)] leading-none steel-text">
+                <span className="font-display font-black text-[clamp(3.5rem,8vw,7rem)] leading-none steel-text">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-steel-dim mt-2">
                   Step {i + 1} / {company.process.length}
                 </span>
               </div>
-              <h3 className="mt-6 font-display font-bold text-2xl sm:text-3xl tracking-tight">{step.title}</h3>
-              <p className="mt-3 text-steel leading-relaxed max-w-md">{step.desc}</p>
+              <h3 className="mt-5 sm:mt-6 font-display font-bold text-xl sm:text-3xl tracking-tight">{step.title}</h3>
+              <p className="mt-2.5 sm:mt-3 text-sm sm:text-base text-steel leading-relaxed max-w-md">{step.desc}</p>
               <span className="absolute top-0 right-0 h-px w-full bg-gradient-to-r from-transparent via-molten/60 to-transparent opacity-0 group-hover:opacity-100" />
             </div>
           ))}

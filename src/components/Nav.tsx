@@ -34,7 +34,8 @@ export default function Nav() {
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
-    return pathname.startsWith(href.split("#")[0]);
+    if (href.startsWith("/#")) return false;
+    return pathname.startsWith(href);
   };
 
   return (
@@ -47,11 +48,15 @@ export default function Nav() {
               : "border-line bg-ink/40 backdrop-blur-md"
           }`}
         >
-          <Link href="/" className="flex items-center gap-3 group">
+          <Link
+            href="/"
+            onClick={() => setOpen(false)}
+            className="flex items-center gap-2 group"
+          >
             <span className="grid place-items-center w-9 h-9 rounded-full bg-molten text-ink font-black text-sm tracking-tight group-hover:rotate-6 transition-transform duration-300">
               {company.monogram}
             </span>
-            <span className="hidden xs:block sm:block">
+            <span className="block">
               <span className="block font-display font-bold text-sm sm:text-base leading-none tracking-tight">
                 {company.shortName}
               </span>
@@ -59,7 +64,7 @@ export default function Nav() {
                 Steel · Metals
               </span>
             </span>
-          </Link>
+          </Link>``
 
           <nav className="hidden md:flex items-center gap-1">
             {links.map((l) => (
@@ -121,10 +126,11 @@ export default function Nav() {
             <Link
               key={l.href}
               href={l.href}
+              onClick={() => setOpen(false)}
               style={{ transitionDelay: open ? `${120 + i * 60}ms` : "0ms" }}
               className={`font-display font-black uppercase tracking-tight text-[clamp(2.5rem,10vw,4rem)] leading-none py-2 transition-all duration-500 ${
                 open ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
-              } ${isActive(l.href) ? "molten-text" : "text-bone"}`}
+              } ${isActive(l.href) ? "molten-text" : "text-bone hover:text-molten"}`}
             >
               {l.label}
             </Link>

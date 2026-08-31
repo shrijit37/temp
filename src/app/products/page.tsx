@@ -12,7 +12,7 @@ import { company } from "@/data/company";
 export const metadata: Metadata = {
   title: "Products — Delhi Metal Corporation | Aluminium & Copper in Delhi",
   description:
-    "Aluminium bus bars, copper bus bars, strips, chequered sheets, angles, sections, flats, sheets, coils and plates — wholesale supply in New Delhi. HSN 7604, 7606, 7409.",
+    "Aluminium bus bars, copper bus bars, flat bars, strips, rods, sheets and GI strips — wholesale supply in New Delhi. HSN 7604, 7606, 7409, 7210.",
 };
 
 export default function ProductsPage() {
@@ -41,8 +41,8 @@ export default function ProductsPage() {
           />
           <div className="mt-8 grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
             <p className="md:col-span-7 text-steel text-lg leading-relaxed max-w-2xl">
-              {company.products.length} stocked ranges across bus bars, strips, sheets, angles and
-              sections — wholesale and cut-to-size, from {company.shortName}&apos;s New Delhi yard.
+              {company.products.length} stocked ranges across bus bars, flat bars, strips, rods and
+              sheets — wholesale and cut-to-size, from {company.shortName}&apos;s New Delhi yard.
               All material GST-verified, mill-direct and delivered on the date promised.
             </p>
             <div className="md:col-span-5 flex flex-col sm:flex-row md:justify-end gap-3">

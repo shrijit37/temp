@@ -1,9 +1,9 @@
 import SectionLabel from "@/components/ui/SectionLabel";
 
 const INDUSTRIES = [
-  ["Switchgear & Panels", "LT / HT panels, busbar trunking, control panels"],
+  ["Switchgear", "LT / HT, busbar trunking, control"],
   ["Transformers", "Strips, plates & connections for transformer works"],
-  ["Bus-body & Fabrication", "Angles, flats, chequered sheets for body building"],
+  ["Bus-body & Fabrication", "Flats for body building"],
   ["Infrastructure & Erection", "Earthing, distribution, structural supply"],
   ["Electrical OEMs", "Conductor-grade bus bars on repeat schedule"],
   ["Retail & Traders", "Small lots, cut-to-size, same-week dispatch"],
