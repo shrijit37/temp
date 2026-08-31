@@ -13,7 +13,7 @@ export default function Industries() {
   return (
     <section className="relative py-16 sm:py-24">
       <div className="max-w-7xl mx-auto px-6 sm:px-10">
-        <SectionLabel index="03" label="Who we serve" className="mb-10 sm:mb-14" />
+        <SectionLabel index="03" label="Who we serve" className="mb-6" />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 border-l border-t border-line">
           {INDUSTRIES.map(([title, desc], i) => (
             <div

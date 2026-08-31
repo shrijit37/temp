@@ -15,7 +15,7 @@ export default function WhyDmc() {
       <div className="max-w-7xl mx-auto px-6 sm:px-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           <div className="lg:col-span-5 lg:sticky lg:top-32">
-            <SectionLabel index="05" label="Why DMC" className="mb-8" />
+            <SectionLabel index="05" label="Why DMC" className="mb-6" />
             <h2 className="font-display font-black uppercase tracking-tight leading-[0.95] text-[clamp(2rem,4.6vw,3.9rem)]">
               The quiet supplier behind <span className="molten-text">busy</span> factories
             </h2>

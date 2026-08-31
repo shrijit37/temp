@@ -44,8 +44,8 @@ export default function Process() {
       <div className="absolute -left-40 top-1/3 w-[36rem] h-[36rem] rounded-full blur-[160px] opacity-15 bg-molten" aria-hidden="true" />
 
       <div className="relative max-w-7xl mx-auto px-6 sm:px-10">
-        <SectionLabel index="04" label="How it works" className="mb-10 sm:mb-14" />
-        <h2 className="font-display font-black uppercase tracking-tight leading-[0.95] text-[clamp(2rem,5vw,4.25rem)] max-w-3xl mb-14 sm:mb-20">
+        <SectionLabel index="04" label="How it works" className="mb-6" />
+        <h2 className="font-display font-black uppercase tracking-tight leading-[0.95] text-[clamp(2rem,5vw,4.25rem)] max-w-3xl mb-10 sm:mb-12">
           From enquiry to delivery, <span className="steel-text">stacked</span> in four moves
         </h2>
 

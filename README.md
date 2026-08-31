@@ -1,3 +1,6 @@
+> **Architecture → [`ARCHITECTURE.md`](ARCHITECTURE.md)** — Next15 app router · Tailwind · data-co.  
+> **Canvas → `40-Atlas/Portfolio_Architecture.canvas` (zone Media Stack)**
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started

@@ -103,22 +103,6 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Floating metal image — bottom right, overlaps into next section */}
-        <div
-          ref={imgWrapRef}
-          className="hidden lg:block absolute -bottom-40 right-10 w-[26rem] h-[19rem] rounded-2xl overflow-hidden border border-line-strong will-change-transform"
-        >
-          <img
-            src="/images/hero-copper.jpg"
-            alt="Copper bus bars and sheets"
-            className="w-full h-full object-cover grayscale contrast-125 opacity-90"
-            draggable={false}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent" />
-          <div className="absolute bottom-4 left-5 font-mono text-[10px] uppercase tracking-[0.3em] text-bone/80">
-            Copper Bus Bar · HSN 7409
-          </div>
-        </div>
       </div>
     </section>
   );

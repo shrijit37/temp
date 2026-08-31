@@ -18,7 +18,7 @@ export default function About() {
   return (
     <section ref={ref} className="relative py-16 sm:py-24 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 sm:px-10">
-        <SectionLabel index="01" label="Who we are" className="mb-10 sm:mb-14" />
+        <SectionLabel index="01" label="Who we are" className="mb-6" />
 
         <h2 className="font-display font-black uppercase tracking-tight leading-[0.95] text-[clamp(2rem,5.4vw,4.75rem)] max-w-6xl">
           Aluminium &amp; copper,
@@ -55,7 +55,7 @@ export default function About() {
           , from one yard in New Delhi.
         </h2>
 
-        <div className="mt-14 sm:mt-20 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+        <div className="mt-10 sm:mt-14 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
           <div className="lg:col-span-7">
             <ScrollReveal
               containerClassName="!my-0 text-left"

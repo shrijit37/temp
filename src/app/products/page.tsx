@@ -28,7 +28,7 @@ export default function ProductsPage() {
           aria-hidden="true"
         />
         <div className="relative max-w-7xl mx-auto px-6 sm:px-10">
-          <SectionLabel index="CAT" label="Product catalogue" className="mb-8" />
+          <SectionLabel index="CAT" label="Product catalogue" className="mb-6" />
           <SplitText
             tag="h1"
             text="Aluminium & copper, cut to your bill of material"
@@ -39,7 +39,7 @@ export default function ProductsPage() {
             className="!text-left font-display font-black uppercase tracking-tight text-[clamp(2.2rem,6vw,5.25rem)] leading-[0.95] max-w-5xl"
             textAlign="left"
           />
-          <div className="mt-10 grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
+          <div className="mt-8 grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
             <p className="md:col-span-7 text-steel text-lg leading-relaxed max-w-2xl">
               {company.products.length} stocked ranges across bus bars, strips, sheets, angles and
               sections — wholesale and cut-to-size, from {company.shortName}&apos;s New Delhi yard.

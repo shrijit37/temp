@@ -53,7 +53,7 @@ export default function Contact() {
 
       <div className="relative max-w-7xl mx-auto px-6 sm:px-10">
         <div className="text-center mb-14 sm:mb-20">
-          <SectionLabel index="06" label="Get a quote" className="mb-8 justify-center" />
+          <SectionLabel index="06" label="Get a quote" className="mb-6 justify-center" />
           <h2 className="font-display font-black uppercase tracking-tight leading-[0.95] text-[clamp(2.2rem,6vw,5.5rem)] max-w-4xl mx-auto">
             Tell us what you&apos;re <span className="molten-text">building</span>
           </h2>

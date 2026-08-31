@@ -20,9 +20,9 @@ export default function ProductsBento() {
     <section className="relative py-16 sm:py-24 overflow-hidden">
       <div className="absolute inset-0 grid-hairlines opacity-40" aria-hidden="true" />
       <div className="relative max-w-7xl mx-auto px-6 sm:px-10">
-        <div className="flex flex-wrap items-end justify-between gap-6 mb-12 sm:mb-16">
+        <div className="flex flex-wrap items-end justify-between gap-6 mb-10 sm:mb-12">
           <div>
-            <SectionLabel index="02" label="Product range" className="mb-8" />
+            <SectionLabel index="02" label="Product range" className="mb-6" />
             <h2 className="font-display font-black uppercase tracking-tight leading-[0.95] text-[clamp(2rem,5vw,4.25rem)] max-w-3xl">
               Stocked for the <span className="molten-text">power</span> and{" "}
               <span className="molten-text">fabrication</span> trade
