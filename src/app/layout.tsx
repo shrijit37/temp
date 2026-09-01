@@ -10,20 +10,20 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Delhi Metal Corporation — Steel & Metal Supplier in Delhi",
   description:
-    "Delhi Metal Corporation — trusted supplier of TMT bars, mild steel, structural steel, pipes, sheets and coils in Delhi. Mill-direct sourcing, certified quality, just-in-time delivery.",
+    "Delhi Metal Corporation — wholesale aluminium & copper supplier in New Delhi: bus bars, flat bars, strips, rods and sheets. Mill-direct sourcing, GSTIN-registered supply, just-in-time delivery.",
   keywords: [
     "Delhi Metal Corporation",
-    "steel supplier Delhi",
-    "TMT bars Delhi",
-    "mild steel Delhi",
-    "structural steel supplier",
-    "steel pipes Delhi",
+    "aluminium supplier Delhi",
+    "copper supplier Delhi",
+    "bus bars Delhi",
+    "aluminium sheets Delhi",
+    "copper strips Delhi",
     "metal trading company India",
   ],
   openGraph: {
     title: "Delhi Metal Corporation — Steel & Metal Supplier in Delhi",
     description:
-      "Mill-direct steel and metal supply for construction, fabrication and infrastructure in Delhi NCR.",
+      "Mill-direct aluminium and copper supply for switchgear, fabrication and power infrastructure in Delhi NCR.",
     type: "website",
     locale: "en_IN",
   },

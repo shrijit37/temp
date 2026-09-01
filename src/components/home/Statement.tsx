@@ -34,7 +34,6 @@ export default function Statement() {
           text="The conductor behind India's power"
           textColor="#9AA0A8"
           minFontSize={20}
-          className="!text-steel"
         />
         <div className="mt-8 text-center font-mono text-[11px] sm:text-xs uppercase tracking-[0.3em] text-steel-dim">
           Aluminium · Copper · Since day one

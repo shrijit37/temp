@@ -45,12 +45,12 @@ export const company: CompanyData = {
   intro:
     "Delhi Metal Corporation is a New Delhi based wholesale distributor of aluminium and copper — the go-to house for Hindalco-make electrical grade bus bars, flat bars, strips, rods and sheets, supplying switchgear manufacturers, transformer works and fabricators across Delhi NCR.",
   about:
-    "A GST-compliant partnership firm since 2020, Delhi Metal Corporation has quietly become the distributor panel builders call first — the house behind Hindalco-make electrical grade aluminium bus bars, precision copper bus bars, flat bars, strips and sheets. Every order is sourced from approved mills, checked on arrival against your specification, and delivered on the date promised. Quote-based wholesale pricing, honest material, and the ability to move small lots and full truckloads alike have made DMC the trusted supplier behind Delhi's switchboards and power infrastructure.",
+    "A GST-compliant partnership firm in trade for 7+ years, Delhi Metal Corporation has quietly become the distributor panel builders call first — the house behind Hindalco-make electrical grade aluminium bus bars, precision copper bus bars, flat bars, strips and sheets. Every order is sourced from registered mills, checked on arrival against your specification, and delivered on the date promised. Quote-based wholesale pricing, honest material, and the ability to move small lots and full truckloads alike have made DMC the trusted supplier behind Delhi's switchboards and power infrastructure.",
   stats: [
     { value: "7+", label: "Years in trade" },
-    { value: "100%", label: "Hindalco & ETP grade material" },
+    { value: "Hindalco & ETP", label: "grade material" },
     { value: "5", label: "HSN categories stocked" },
-    { value: "100%", label: "GST verified supplier" },
+    { value: "100%", label: "GSTIN-registered supply" },
   ],
   materials: [
     "HINDALCO BUS BARS",
@@ -193,7 +193,7 @@ export const company: CompanyData = {
     },
     {
       title: "Source & Check",
-      desc: "Material is sourced from approved mills and checked on arrival against your specification.",
+      desc: "Material is sourced from registered mills and checked on arrival against your specification.",
     },
     {
       title: "Deliver",
@@ -201,12 +201,12 @@ export const company: CompanyData = {
     },
   ],
   contact: {
-    phone: "+91 96548 19310",
-    phone2: "+91 92170 02598",
+    phone: "+91 97117 07511",
+    phone2: "+91 99992 39072",
     email: "sales@delhimetalcorporation.com",
     address: "2574/10, Ground Floor, Gali No. 10 (Chitragupta Road), Chuna Mandi, Paharganj, New Delhi – 110055",
     hours: "Mon – Sat · 10:00 – 20:00 · Sun closed",
     gstin: "07AAQFD8445E1Z6",
-    contactPerson: "A. Kaushik",
+    contactPerson: "KL Sharma & Aditya Kaushik",
   },
 };

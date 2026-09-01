@@ -1,10 +1,9 @@
 interface MarqueeProps {
   items: string[];
   className?: string;
-  slow?: boolean;
 }
 
-export default function Marquee({ items, className = "", slow = false }: MarqueeProps) {
+export default function Marquee({ items, className = "" }: MarqueeProps) {
   const row = (key: string) => (
     <div key={key} className="flex items-center shrink-0" aria-hidden={key === "copy"}>
       {items.map((item, i) => (
@@ -20,7 +19,7 @@ export default function Marquee({ items, className = "", slow = false }: Marquee
 
   return (
     <div className={`relative overflow-hidden mask-fade-x w-full ${className}`}>
-      <div className={`flex w-max ${slow ? "animate-marquee-slow" : "animate-marquee"}`}>
+      <div className="flex w-max animate-marquee">
         {row("a")}
         {row("copy")}
       </div>

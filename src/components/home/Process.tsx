@@ -88,7 +88,6 @@ export default function Process() {
               </div>
               <h3 className="mt-5 sm:mt-6 font-display font-bold text-xl sm:text-3xl tracking-tight">{step.title}</h3>
               <p className="mt-2.5 sm:mt-3 text-sm sm:text-base text-steel leading-relaxed max-w-md">{step.desc}</p>
-              <span className="absolute top-0 right-0 h-px w-full bg-gradient-to-r from-transparent via-molten/60 to-transparent opacity-0 group-hover:opacity-100" />
             </div>
           ))}
         </div>

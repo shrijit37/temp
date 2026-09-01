@@ -50,9 +50,9 @@ src/
 ## 5. Deployment & ENV
 
 - `next.config.ts` untouched (no image domains yet) → add `remotePatterns` for CMS later.
-- `.env.local` holds contact form keys (Resend/etc) — never commit.
+- No email service is wired — the enquiry form opens a WhatsApp deep link client-side. `.env.local` holds only a Vercel OIDC token (gitignored).
 - `npm run build` → Vercel (function fallback, no Docker needed).
-- Next step: `next-sitemap` + `opengraph-image.tsx` + `app/api/contact` with zod + rate limit.
+- Next step (planned, not implemented yet): `next-sitemap` + `opengraph-image.tsx` + `app/api/contact` with zod + rate limit.
 
 ## 6. ADRs
 

@@ -23,8 +23,8 @@ const MATERIALS = [
 export default function Contact() {
   const [form, setForm] = useState({ name: "", phone: "", material: MATERIALS[0], qty: "", message: "" });
   const [sent, setSent] = useState(false);
+  const [blocked, setBlocked] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [k]: e.target.value });
@@ -67,8 +67,6 @@ export default function Contact() {
       return;
     }
 
-    setIsSubmitting(true);
-
     const body = [
       `Name: ${form.name}`,
       `Phone: ${form.phone}`,
@@ -81,9 +79,15 @@ export default function Contact() {
 
     // WhatsApp is the fast channel for wholesale enquiries
     const wa = (company.contact.phone2 || company.contact.phone).replace(/\D/g, "");
-    window.open(`https://wa.me/${wa}?text=${encodeURIComponent(body)}`, "_blank");
+    const win = window.open(`https://wa.me/${wa}?text=${encodeURIComponent(body)}`, "_blank");
 
-    setIsSubmitting(false);
+    // Only claim the enquiry went anywhere if WhatsApp actually opened
+    if (!win) {
+      setBlocked(true);
+      return;
+    }
+
+    setBlocked(false);
     setSent(true);
     setTimeout(() => setSent(false), 5000);
   };
@@ -126,7 +130,7 @@ export default function Contact() {
                     errors.name ? "border-error focus:border-error" : "border-line focus:border-molten"
                   }`}
                 />
-                {errors.name && <p className="mt-1.5 text-xs text-error-light">{errors.name}</p>}\
+                {errors.name && <p className="mt-1.5 text-xs text-error-light">{errors.name}</p>}
               </label>
               <label className="block" htmlFor="phone">
                 <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-steel-dim">Phone / WhatsApp</span>
@@ -184,19 +188,11 @@ export default function Contact() {
             </label>
             <button
               type="submit"
-              disabled={isSubmitting || sent}
+              disabled={sent}
               className="mt-7 w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-molten text-ink font-bold text-base px-10 py-4 transition-all duration-300 hover:bg-ember hover:shadow-[0_0_44px_rgba(255,90,31,0.4)] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-molten disabled:hover:shadow-none cursor-pointer"
             >
-              {isSubmitting ? (
-                <>
-                  <svg className="animate-spin h-5 w-5 text-ink" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  Sending...
-                </>
-              ) : sent ? (
-                "Enquiry sent — we'll call you back"
+              {sent ? (
+                "WhatsApp opened — press Send to submit"
               ) : (
                 <>
                   Request a quote
@@ -204,6 +200,11 @@ export default function Contact() {
                 </>
               )}
             </button>
+            {blocked && (
+              <p className="mt-4 text-xs text-error-light">
+                Popup blocked — use the WhatsApp button in the contact card to send your enquiry.
+              </p>
+            )}
           </form>
 
           {/* Details */}
@@ -257,10 +258,10 @@ export default function Contact() {
                 </li>
                 <li className="flex items-center gap-4">
                   <span className="grid place-items-center w-10 h-10 rounded-full border border-line-strong font-mono text-[10px] text-molten">
-                    GST
+                    GSTIN
                   </span>
                   <span className="font-mono text-xs tracking-wider text-steel">
-                    {company.contact.gstin} · verified
+                    {company.contact.gstin} · registered
                   </span>
                 </li>
               </ul>

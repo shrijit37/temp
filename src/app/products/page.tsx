@@ -43,7 +43,7 @@ export default function ProductsPage() {
             <p className="md:col-span-7 text-steel text-lg leading-relaxed max-w-2xl">
               {company.products.length} stocked ranges across bus bars, flat bars, strips, rods and
               sheets — wholesale and cut-to-size, from {company.shortName}&apos;s New Delhi yard.
-              All material GST-verified, mill-direct and delivered on the date promised.
+              All material GSTIN-registered, mill-direct and delivered on the date promised.
             </p>
             <div className="md:col-span-5 flex flex-col sm:flex-row md:justify-end gap-3">
               <PrimaryButton href="/#contact">Request a quote</PrimaryButton>

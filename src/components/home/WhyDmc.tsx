@@ -1,9 +1,9 @@
 import SectionLabel from "@/components/ui/SectionLabel";
 
 const POINTS = [
-  ["Mill-direct rates", "Wholesale pricing sourced straight from approved mills and suppliers."],
+  ["Mill-direct rates", "Wholesale pricing sourced straight from registered mills and suppliers."],
   ["Every quantity", "One bus bar or a truckload — the same rate card and the same care."],
-  ["GST verified", "Clean, registered supply with tax-compliant invoicing on every order."],
+  ["GSTIN registered", "Clean, registered supply with tax-compliant invoicing on every order."],
   ["Cut to size", "Shearing, slitting and cut-to-length so material arrives work-ready."],
   ["On-time dispatch", "Deliveries planned around your schedule, not ours."],
   ["Honest material", "Grades and specs stated plainly — what you order is what arrives."],

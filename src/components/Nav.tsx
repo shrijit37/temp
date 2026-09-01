@@ -64,7 +64,7 @@ export default function Nav() {
                 Steel · Metals
               </span>
             </span>
-          </Link>``
+          </Link>
 
           <nav className="hidden md:flex items-center gap-1">
             {links.map((l) => (

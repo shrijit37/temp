@@ -59,13 +59,10 @@ export default function Hero() {
         <MaskedHeading
           tag="h1"
           text="DELHI METAL CORPORATION"
-          mediaType="image"
           src="/images/hero-texture.jpg"
           grayscale
           brightness={1.05}
           saturation={1.1}
-          reveal="rise"
-          trigger="view"
           align="left"
           weight={900}
           tracking={-0.045}

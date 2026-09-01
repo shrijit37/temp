@@ -21,7 +21,6 @@ export interface SplitTextProps {
   rootMargin?: string;
   tag?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span";
   textAlign?: React.CSSProperties["textAlign"];
-  onLetterAnimationComplete?: () => void;
 }
 
 const SplitText: React.FC<SplitTextProps> = ({
@@ -36,18 +35,11 @@ const SplitText: React.FC<SplitTextProps> = ({
   threshold = 0.1,
   rootMargin = "-100px",
   tag = "p",
-  textAlign = "center",
-  onLetterAnimationComplete
+  textAlign = "center"
 }) => {
   const ref = useRef<HTMLParagraphElement>(null);
   const animationCompletedRef = useRef(false);
-  const onCompleteRef = useRef(onLetterAnimationComplete);
   const [fontsLoaded, setFontsLoaded] = useState<boolean>(false);
-
-  // Keep callback ref updated
-  useEffect(() => {
-    onCompleteRef.current = onLetterAnimationComplete;
-  }, [onLetterAnimationComplete]);
 
   useEffect(() => {
     // document.fonts.ready can reject (font load failure) or hang (pending font
@@ -125,7 +117,6 @@ const SplitText: React.FC<SplitTextProps> = ({
               },
               onComplete: () => {
                 animationCompletedRef.current = true;
-                onCompleteRef.current?.();
               },
               willChange: "transform, opacity",
               force3D: true

@@ -72,9 +72,9 @@ export default function About() {
               <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-steel-dim">Why industry buys from us</p>
               <ul className="mt-8 space-y-6">
                 {[
-                  ["Mill-direct pricing", "Trade rates sourced straight from approved mills — no middlemen, no markups."],
+                  ["Mill-direct pricing", "Trade rates sourced straight from registered mills — no middlemen, no markups."],
                   ["Every lot, any lot", "From a single bus bar to full truckloads of coil and sheet."],
-                  ["Certified material", "GST-verified supply with material traceability on request."],
+                  ["Registered supply", "GSTIN-registered supply with material traceability on request."],
                   ["Delivered on the date", "Just-in-time dispatch across Delhi NCR — when you say, not when we say."],
                 ].map(([t, d]) => (
                   <li key={t} className="flex gap-4">

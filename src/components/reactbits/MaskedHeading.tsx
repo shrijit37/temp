@@ -6,25 +6,19 @@ import { gsap } from "gsap";
 
 const clamp = (v: number, a: number, b: number): number => (v < a ? a : v > b ? b : v);
 
-type Reveal = "rise" | "wipe" | "fade" | "none";
-type Trigger = "view" | "mount" | "hover";
+const FILL_SCALE = 1.25;
+const PARALLAX = 26;
+const DRIFT = 18;
+const DURATION = 1.1;
+const STAGGER = 0.09;
 
 export interface MaskedHeadingProps {
-  text?: string;
+  text: string;
   tag?: ElementType;
-  mediaType?: "image" | "video";
-  src?: string;
-  poster?: string;
-  fillScale?: number;
-  parallax?: number;
-  drift?: number;
+  src: string;
   brightness?: number;
   saturation?: number;
   grayscale?: boolean;
-  reveal?: Reveal;
-  duration?: number;
-  stagger?: number;
-  trigger?: Trigger;
   align?: "left" | "center" | "right";
   weight?: number;
   tracking?: number;
@@ -32,25 +26,15 @@ export interface MaskedHeadingProps {
   textScale?: number;
   className?: string;
   style?: CSSProperties;
-  [key: string]: unknown;
 }
 
 const MaskedHeading: React.FC<MaskedHeadingProps> = ({
-  text = "Designed in the details",
+  text,
   tag = "h2",
-  mediaType = "image",
-  src = "",
-  poster = "",
-  fillScale = 1.25,
-  parallax = 26,
-  drift = 18,
+  src,
   brightness = 1,
   saturation = 1,
   grayscale = false,
-  reveal = "rise",
-  duration = 1.1,
-  stagger = 0.09,
-  trigger = "view",
   align = "center",
   weight = 700,
   tracking = -0.03,
@@ -58,7 +42,6 @@ const MaskedHeading: React.FC<MaskedHeadingProps> = ({
   textScale = 0.115,
   className = "",
   style,
-  ...rest
 }: MaskedHeadingProps) => {
   const rootRef = useRef<HTMLElement | null>(null);
   const measureRef = useRef<HTMLSpanElement | null>(null);
@@ -71,18 +54,18 @@ const MaskedHeading: React.FC<MaskedHeadingProps> = ({
   const offsetRef = useRef<{ x: number; y: number; tx: number; ty: number }>({ x: 0, y: 0, tx: 0, ty: 0 });
 
   const clipId = `mh-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
-  const words = useMemo(() => String(text).split(/\s+/).filter(Boolean), [text]);
+  const words = useMemo(() => text.split(/\s+/).filter(Boolean), [text]);
 
   const settingsRef = useRef<{
-    fillScale: number;
-    parallax: number;
-    drift: number;
     brightness: number;
     saturation: number;
     grayscale: boolean;
     textScale: number;
-  }>({ fillScale: 1, parallax: 0, drift: 0, brightness: 1, saturation: 1, grayscale: false, textScale: 0.115 });
-  settingsRef.current = { fillScale, parallax, drift, brightness, saturation, grayscale, textScale };
+  }>({ brightness: 1, saturation: 1, grayscale: false, textScale: 0.115 });
+
+  useEffect(() => {
+    settingsRef.current = { brightness, saturation, grayscale, textScale };
+  });
 
   const place = useCallback(() => {
     const root = rootRef.current;
@@ -93,10 +76,10 @@ const MaskedHeading: React.FC<MaskedHeadingProps> = ({
     const H = root.clientHeight;
     const off = offsetRef.current;
 
-    const maxX = Math.max(0, ((s.fillScale - 1) / 2) * W);
-    const maxY = Math.max(0, ((s.fillScale - 1) / 2) * H);
+    const maxX = Math.max(0, ((FILL_SCALE - 1) / 2) * W);
+    const maxY = Math.max(0, ((FILL_SCALE - 1) / 2) * H);
 
-    media.style.transform = `translate3d(${clamp(off.x, -maxX, maxX).toFixed(2)}px, ${clamp(off.y, -maxY, maxY).toFixed(2)}px, 0) scale(${s.fillScale})`;
+    media.style.transform = `translate3d(${clamp(off.x, -maxX, maxX).toFixed(2)}px, ${clamp(off.y, -maxY, maxY).toFixed(2)}px, 0) scale(${FILL_SCALE})`;
     media.style.filter = `brightness(${s.brightness}) saturate(${s.saturation})${s.grayscale ? " grayscale(1)" : ""}`;
   }, []);
 
@@ -142,11 +125,10 @@ const MaskedHeading: React.FC<MaskedHeadingProps> = ({
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
       clock += dt;
-      const s = settingsRef.current;
       const off = offsetRef.current;
 
-      const dx = Math.sin(clock * 0.21) * s.drift;
-      const dy = Math.cos(clock * 0.17) * s.drift * 0.6;
+      const dx = Math.sin(clock * 0.21) * DRIFT;
+      const dy = Math.cos(clock * 0.17) * DRIFT * 0.6;
 
       const ease = 1 - Math.exp(-dt / 0.18);
       off.x += (off.tx + dx - off.x) * ease;
@@ -157,13 +139,11 @@ const MaskedHeading: React.FC<MaskedHeadingProps> = ({
     };
 
     const onMove = (e: PointerEvent) => {
-      const s = settingsRef.current;
-      if (s.parallax <= 0) return;
       const r = root.getBoundingClientRect();
       const nx = ((e.clientX - r.left) / (r.width || 1)) * 2 - 1;
       const ny = ((e.clientY - r.top) / (r.height || 1)) * 2 - 1;
-      offsetRef.current.tx = clamp(nx, -1, 1) * -s.parallax;
-      offsetRef.current.ty = clamp(ny, -1, 1) * -s.parallax;
+      offsetRef.current.tx = clamp(nx, -1, 1) * -PARALLAX;
+      offsetRef.current.ty = clamp(ny, -1, 1) * -PARALLAX;
     };
 
     const onLeave = () => {
@@ -201,84 +181,33 @@ const MaskedHeading: React.FC<MaskedHeadingProps> = ({
       gsap.set(layer, { opacity: 1, scale: 1, clipPath: "inset(0% 0% 0% 0%)" });
     };
 
-    const rest = () => {
-      if (reveal === "rise") {
-        gsap.set(glyphs, { y: riseDistance() });
-      } else if (reveal === "wipe") {
-        gsap.set(layer, { clipPath: "inset(0% 100% 0% 0%)" });
-      } else if (reveal === "fade") {
-        gsap.set(layer, { opacity: 0, scale: 1.08 });
-      }
-    };
-
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reveal === "none" || reduce) {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       settle();
       return;
     }
 
-    const play = () => {
+    settle();
+    gsap.set(glyphs, { y: riseDistance() });
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          tweenRef.current?.kill();
+          tweenRef.current = gsap.fromTo(
+            glyphs,
+            { y: riseDistance() },
+            { y: 0, duration: DURATION, stagger: STAGGER, ease: "power4.out", overwrite: "auto" }
+          );
+          io.disconnect();
+        }
+      },
+      { threshold: 0.25 }
+    );
+    io.observe(root);
+    return () => {
+      io.disconnect();
       tweenRef.current?.kill();
-      if (reveal === "rise") {
-        gsap.set(layer, { opacity: 1, scale: 1, clipPath: "inset(0% 0% 0% 0%)" });
-        tweenRef.current = gsap.fromTo(
-          glyphs,
-          { y: riseDistance() },
-          { y: 0, duration, stagger, ease: "power4.out", overwrite: "auto" }
-        );
-      } else if (reveal === "wipe") {
-        gsap.set(glyphs, { y: 0 });
-        const state = { p: 100 };
-        tweenRef.current = gsap.to(state, {
-          p: 0,
-          duration,
-          ease: "power3.inOut",
-          overwrite: "auto",
-          onUpdate: () => {
-            layer.style.clipPath = `inset(0% ${state.p}% 0% 0%)`;
-          }
-        });
-      } else {
-        gsap.set(glyphs, { y: 0 });
-        tweenRef.current = gsap.fromTo(
-          layer,
-          { opacity: 0, scale: 1.08 },
-          { opacity: 1, scale: 1, duration, ease: "power3.out", overwrite: "auto" }
-        );
-      }
     };
-
-    if (trigger === "hover") {
-      settle();
-      root.addEventListener("pointerenter", play);
-      return () => {
-        root.removeEventListener("pointerenter", play);
-        tweenRef.current?.kill();
-      };
-    }
-
-    if (trigger === "view") {
-      settle();
-      rest();
-      const io = new IntersectionObserver(
-        entries => {
-          if (entries.some(e => e.isIntersecting)) {
-            play();
-            io.disconnect();
-          }
-        },
-        { threshold: 0.25 }
-      );
-      io.observe(root);
-      return () => {
-        io.disconnect();
-        tweenRef.current?.kill();
-      };
-    }
-
-    play();
-    return () => tweenRef.current?.kill();
-  }, [reveal, trigger, duration, stagger, words]);
+  }, [words]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const TagAny = tag as any;
@@ -294,7 +223,6 @@ const MaskedHeading: React.FC<MaskedHeadingProps> = ({
         lineHeight,
         ...style
       }}
-      {...rest}
     >
       <span ref={measureRef} className="text-transparent">
         {words.map((word, i) => (
@@ -336,19 +264,7 @@ const MaskedHeading: React.FC<MaskedHeadingProps> = ({
       <span ref={revealRef} className="absolute inset-0 block pointer-events-none">
         <span className="absolute inset-0 block" style={{ clipPath: `url(#${clipId})` }}>
           <span ref={mediaRef} className="absolute inset-0 block [will-change:transform,filter]">
-            {mediaType === "video" ? (
-              <video
-                className="block w-full h-full object-cover select-none"
-                src={src}
-                poster={poster}
-                autoPlay
-                muted
-                loop
-                playsInline
-              />
-            ) : (
-              <img className="block w-full h-full object-cover select-none" src={src} alt="" draggable={false} />
-            )}
+            <img className="block w-full h-full object-cover select-none" src={src} alt="" draggable={false} />
           </span>
         </span>
       </span>

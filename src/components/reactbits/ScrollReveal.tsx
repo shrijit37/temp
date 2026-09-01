@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useMemo, ReactNode, RefObject } from "react";
+import { useEffect, useRef, useMemo, ReactNode } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -8,28 +8,18 @@ gsap.registerPlugin(ScrollTrigger);
 
 interface ScrollRevealProps {
   children: ReactNode;
-  scrollContainerRef?: RefObject<HTMLElement>;
-  enableBlur?: boolean;
   baseOpacity?: number;
-  baseRotation?: number;
   blurStrength?: number;
   containerClassName?: string;
   textClassName?: string;
-  rotationEnd?: string;
-  wordAnimationEnd?: string;
 }
 
 const ScrollReveal: React.FC<ScrollRevealProps> = ({
   children,
-  scrollContainerRef,
-  enableBlur = true,
   baseOpacity = 0.1,
-  baseRotation = 3,
   blurStrength = 4,
   containerClassName = "",
-  textClassName = "",
-  rotationEnd = "bottom bottom",
-  wordAnimationEnd = "bottom bottom"
+  textClassName = ""
 }) => {
   const containerRef = useRef<HTMLHeadingElement>(null);
 
@@ -49,19 +39,16 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({
     const el = containerRef.current;
     if (!el) return;
 
-    const scroller = scrollContainerRef && scrollContainerRef.current ? scrollContainerRef.current : window;
-
     gsap.fromTo(
       el,
-      { transformOrigin: "0% 50%", rotate: baseRotation },
+      { transformOrigin: "0% 50%", rotate: 3 },
       {
         ease: "none",
         rotate: 0,
         scrollTrigger: {
           trigger: el,
-          scroller,
           start: "top bottom",
-          end: rotationEnd,
+          end: "bottom bottom",
           scrub: true
         }
       }
@@ -78,37 +65,35 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({
         stagger: 0.05,
         scrollTrigger: {
           trigger: el,
-          scroller,
           start: "top bottom-=20%",
-          end: wordAnimationEnd,
+          end: "bottom bottom",
           scrub: true
         }
       }
     );
 
-    if (enableBlur) {
-      gsap.fromTo(
-        wordElements,
-        { filter: `blur(${blurStrength}px)` },
-        {
-          ease: "none",
-          filter: "blur(0px)",
-          stagger: 0.05,
-          scrollTrigger: {
-            trigger: el,
-            scroller,
-            start: "top bottom-=20%",
-            end: wordAnimationEnd,
-            scrub: true
-          }
+    gsap.fromTo(
+      wordElements,
+      { filter: `blur(${blurStrength}px)` },
+      {
+        ease: "none",
+        filter: "blur(0px)",
+        stagger: 0.05,
+        scrollTrigger: {
+          trigger: el,
+          start: "top bottom-=20%",
+          end: "bottom bottom",
+          scrub: true
         }
-      );
-    }
+      }
+    );
 
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      ScrollTrigger.getAll().forEach(st => {
+        if (st.trigger === el) st.kill();
+      });
     };
-  }, [scrollContainerRef, enableBlur, baseRotation, baseOpacity, rotationEnd, wordAnimationEnd, blurStrength]);
+  }, [baseOpacity, blurStrength]);
 
   return (
     <h2 ref={containerRef} className={`my-5 ${containerClassName}`}>

@@ -113,14 +113,16 @@ interface AuroraProps {
   colorStops?: string[];
   amplitude?: number;
   blend?: number;
-  time?: number;
   speed?: number;
 }
 
 export default function Aurora(props: AuroraProps) {
   const { colorStops = ["#FF5A1F", "#FF8A3D", "#7A2E10"], amplitude = 1.0, blend = 0.5 } = props;
   const propsRef = useRef<AuroraProps>(props);
-  propsRef.current = props;
+
+  useEffect(() => {
+    propsRef.current = props;
+  });
 
   const ctnDom = useRef<HTMLDivElement>(null);
 
@@ -180,9 +182,9 @@ export default function Aurora(props: AuroraProps) {
     let animateId = 0;
     const update = (t: number) => {
       animateId = requestAnimationFrame(update);
-      const { time = t * 0.01, speed = 1.0 } = propsRef.current;
+      const speed = propsRef.current.speed ?? 1.0;
       if (program) {
-        program.uniforms.uTime.value = time * speed * 0.1;
+        program.uniforms.uTime.value = t * 0.01 * speed * 0.1;
         program.uniforms.uAmplitude.value = propsRef.current.amplitude ?? 1.0;
         program.uniforms.uBlend.value = propsRef.current.blend ?? blend;
         const stops = propsRef.current.colorStops ?? colorStops;

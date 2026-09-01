@@ -19,7 +19,7 @@ export default function Footer() {
               <div>
                 <div className="font-display font-bold text-lg tracking-tight">{company.name}</div>
                 <div className="font-mono text-[10px] tracking-[0.28em] uppercase text-steel">
-                  Steel · Metals · Since {company.stats[0]?.value !== "TODO" ? company.stats[0].value : "the beginning"}
+                  Steel · Metals · {company.stats[0].value} {company.stats[0].label}
                 </div>
               </div>
             </div>
@@ -99,7 +99,7 @@ export default function Footer() {
             © {year} {company.name}. All rights reserved.
           </p>
           <p className="font-mono text-[11px] tracking-wider text-steel-dim">
-            {company.contact.gstin !== "TODO" ? `GSTIN ${company.contact.gstin}` : "GST registered"}
+            GSTIN {company.contact.gstin}
             <span className="mx-2 text-steel-dim">·</span>Made in India 🇮🇳
           </p>
         </div>

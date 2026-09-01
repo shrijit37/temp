@@ -2,22 +2,15 @@
 
 // Component ported from https://codepen.io/JuanFuentes/full/rgXKGQ
 
-import { useEffect, useRef, useState, useMemo, useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+
+const FONT_FAMILY = "Roboto Flex";
+const FONT_URL =
+  "https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&display=swap";
 
 interface TextPressureProps {
   text?: string;
-  fontFamily?: string;
-  fontUrl?: string;
-  width?: boolean;
-  weight?: boolean;
-  italic?: boolean;
-  alpha?: boolean;
-  flex?: boolean;
-  stroke?: boolean;
-  scale?: boolean;
   textColor?: string;
-  strokeColor?: string;
-  strokeWidth?: number;
   className?: string;
   minFontSize?: number;
 }
@@ -33,9 +26,9 @@ const getAttr = (distance: number, maxDist: number, minVal: number, maxVal: numb
   return Math.max(minVal, val + minVal);
 };
 
-const debounce = (func: (...args: any[]) => void, delay: number) => {
+const debounce = <A extends unknown[]>(func: (...args: A) => void, delay: number) => {
   let timeoutId: ReturnType<typeof setTimeout>;
-  return (...args: any[]) => {
+  return (...args: A) => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => {
       func.apply(this, args);
@@ -45,18 +38,7 @@ const debounce = (func: (...args: any[]) => void, delay: number) => {
 
 const TextPressure: React.FC<TextPressureProps> = ({
   text = "Compressa",
-  fontFamily = "Roboto Flex",
-  fontUrl = "https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,100..1000&display=swap",
-  width = true,
-  weight = true,
-  italic = true,
-  alpha = false,
-  flex = true,
-  stroke = false,
-  scale = false,
   textColor = "#FFFFFF",
-  strokeColor = "#FF0000",
-  strokeWidth = 2,
   className = "",
   minFontSize = 24
 }) => {
@@ -68,8 +50,6 @@ const TextPressure: React.FC<TextPressureProps> = ({
   const cursorRef = useRef({ x: 0, y: 0 });
 
   const [fontSize, setFontSize] = useState(minFontSize);
-  const [scaleY, setScaleY] = useState(1);
-  const [lineHeight, setLineHeight] = useState(1);
 
   const chars = text.split("");
 
@@ -102,28 +82,15 @@ const TextPressure: React.FC<TextPressureProps> = ({
   }, []);
 
   const setSize = useCallback(() => {
-    if (!containerRef.current || !titleRef.current) return;
+    if (!containerRef.current) return;
 
-    const { width: containerW, height: containerH } = containerRef.current.getBoundingClientRect();
+    const { width: containerW } = containerRef.current.getBoundingClientRect();
 
     let newFontSize = containerW / (chars.length / 2);
     newFontSize = Math.max(newFontSize, minFontSize);
 
     setFontSize(newFontSize);
-    setScaleY(1);
-    setLineHeight(1);
-
-    requestAnimationFrame(() => {
-      if (!titleRef.current) return;
-      const textRect = titleRef.current.getBoundingClientRect();
-
-      if (scale && textRect.height > 0) {
-        const yRatio = containerH / textRect.height;
-        setScaleY(yRatio);
-        setLineHeight(yRatio);
-      }
-    });
-  }, [chars.length, minFontSize, scale]);
+  }, [chars.length, minFontSize]);
 
   useEffect(() => {
     const debouncedSetSize = debounce(setSize, 100);
@@ -153,18 +120,14 @@ const TextPressure: React.FC<TextPressureProps> = ({
 
           const d = dist(mouseRef.current, charCenter);
 
-          const wdth = width ? Math.floor(getAttr(d, maxDist, 5, 200)) : 100;
-          const wght = weight ? Math.floor(getAttr(d, maxDist, 100, 900)) : 400;
-          const italVal = italic ? getAttr(d, maxDist, 0, 1).toFixed(2) : "0";
-          const alphaVal = alpha ? getAttr(d, maxDist, 0, 1).toFixed(2) : "1";
+          const wdth = Math.floor(getAttr(d, maxDist, 5, 200));
+          const wght = Math.floor(getAttr(d, maxDist, 100, 900));
+          const italVal = getAttr(d, maxDist, 0, 1).toFixed(2);
 
           const newFontVariationSettings = `'wght' ${wght}, 'wdth' ${wdth}, 'ital' ${italVal}`;
 
           if (span.style.fontVariationSettings !== newFontVariationSettings) {
             span.style.fontVariationSettings = newFontVariationSettings;
-          }
-          if (alpha && span.style.opacity !== alphaVal) {
-            span.style.opacity = alphaVal;
           }
         });
       }
@@ -174,47 +137,20 @@ const TextPressure: React.FC<TextPressureProps> = ({
 
     animate();
     return () => cancelAnimationFrame(rafId);
-  }, [width, weight, italic, alpha]);
-
-  const styleElement = useMemo(() => {
-    return (
-      <style>{`
-        @import url('${fontUrl}');
-        .stroke span {
-          position: relative;
-          color: ${textColor};
-        }
-        .stroke span::after {
-          content: attr(data-char);
-          position: absolute;
-          left: 0;
-          top: 0;
-          color: transparent;
-          z-index: -1;
-          -webkit-text-stroke-width: ${strokeWidth}px;
-          -webkit-text-stroke-color: ${strokeColor};
-        }
-      `}</style>
-    );
-  }, [fontFamily, fontUrl, stroke, textColor, strokeColor, strokeWidth]);
+  }, []);
 
   return (
     <div ref={containerRef} className="relative w-full h-full overflow-hidden bg-transparent">
-      {styleElement}
+      <style>{`@import url('${FONT_URL}');`}</style>
       <h1
         ref={titleRef}
-        className={`text-pressure-title ${className} ${
-          flex ? "flex justify-between" : ""
-        } ${stroke ? "stroke" : ""} uppercase text-center`}
+        className={`text-pressure-title ${className} flex justify-between uppercase text-center`}
         style={{
-          fontFamily,
+          fontFamily: FONT_FAMILY,
           fontSize: fontSize,
-          lineHeight,
-          transform: `scale(1, ${scaleY})`,
-          transformOrigin: "center top",
           margin: 0,
           fontWeight: 100,
-          color: stroke ? undefined : textColor
+          color: textColor
         }}
       >
         {chars.map((char, i) => (
