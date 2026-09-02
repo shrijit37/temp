@@ -20,6 +20,7 @@
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
   --animate-marquee: marquee 32s linear infinite;
+  --animate-aurora-drift: aurora-drift 18s ease-in-out infinite alternate;
 
   @keyframes marquee {
     from {
@@ -27,6 +28,15 @@
     }
     to {
       transform: translateX(-50%);
+    }
+  }
+
+  @keyframes aurora-drift {
+    from {
+      transform: translate3d(-2%, -1%, 0) scale(1.05);
+    }
+    to {
+      transform: translate3d(2%, 3%, 0) scale(1.18);
     }
   }
 }

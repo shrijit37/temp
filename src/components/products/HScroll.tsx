@@ -1,12 +1,8 @@
 "use client";
 
 import { useRef } from "react";
-import { useGSAP } from "@gsap/react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { gsap, useGSAP } from "@/lib/gsap";
 import { company } from "@/data/company";
-
-gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 export default function HScroll() {
   const sectionRef = useRef<HTMLElement>(null);

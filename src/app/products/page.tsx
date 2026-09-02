@@ -76,7 +76,7 @@ export default function ProductsPage() {
       {/* CTA band */}
       <section className="relative py-16 sm:py-24 overflow-hidden">
         <div className="absolute inset-0 opacity-30 mix-blend-screen">
-          <Aurora colorStops={["#2E1A10", "#FF5A1F", "#101014"]} amplitude={0.7} blend={0.6} speed={0.6} />
+          <Aurora colorStops={["#2E1A10", "#FF5A1F", "#101014"]} />
         </div>
         <div className="absolute inset-0 bg-gradient-to-b from-ink via-transparent to-ink" aria-hidden="true" />
         <div className="relative max-w-4xl mx-auto px-6 text-center">

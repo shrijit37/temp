@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { maybeAutoReloadOnChunkError } from "@/lib/chunk-reload";
 
 export default function GlobalError({
   error,
@@ -10,20 +11,7 @@ export default function GlobalError({
   reset: () => void;
 }) {
   useEffect(() => {
-    const isChunkError =
-      error.message?.includes("Loading chunk") ||
-      error.message?.includes("Failed to fetch dynamically imported module") ||
-      error.name === "ChunkLoadError";
-
-    if (isChunkError && typeof window !== "undefined") {
-      const reloadKey = "dmc_global_chunk_reload";
-      const lastReload = sessionStorage.getItem(reloadKey);
-      const now = Date.now();
-      if (!lastReload || now - parseInt(lastReload, 10) > 10000) {
-        sessionStorage.setItem(reloadKey, now.toString());
-        window.location.reload();
-      }
-    }
+    maybeAutoReloadOnChunkError(error, "dmc_global_chunk_reload");
   }, [error]);
 
   return (

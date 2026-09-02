@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import SpotlightCard from "@/components/reactbits/SpotlightCard";
 import SectionLabel from "@/components/ui/SectionLabel";
@@ -16,6 +17,44 @@ const SPANS = [
 ];
 
 export default function ProductsBento() {
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const grid = gridRef.current;
+    if (!grid) return;
+
+    const cards = Array.from(grid.querySelectorAll<HTMLElement>("[data-spotlight-card]"));
+    const overlays = cards.map((card) => card.querySelector<HTMLElement>("[data-spotlight-overlay]"));
+    if (!cards.length || overlays.some((overlay) => !overlay)) return;
+
+    const setSpotlight = (event: PointerEvent) => {
+      const target = (event.target as Element).closest<HTMLElement>("[data-spotlight-card]");
+      cards.forEach((card, index) => {
+        const overlay = overlays[index];
+        if (!overlay) return;
+
+        if (card === target) {
+          const bounds = card.getBoundingClientRect();
+          card.style.setProperty("--spot-x", `${event.clientX - bounds.left}px`);
+          card.style.setProperty("--spot-y", `${event.clientY - bounds.top}px`);
+          overlay.style.opacity = "0.6";
+        } else {
+          overlay.style.opacity = "0";
+        }
+      });
+    };
+
+    const clearSpotlight = () => overlays.forEach((overlay) => overlay?.style.setProperty("opacity", "0"));
+
+    grid.addEventListener("pointermove", setSpotlight);
+    grid.addEventListener("pointerleave", clearSpotlight);
+
+    return () => {
+      grid.removeEventListener("pointermove", setSpotlight);
+      grid.removeEventListener("pointerleave", clearSpotlight);
+    };
+  }, []);
+
   return (
     <section className="relative py-16 sm:py-24 overflow-hidden">
       <div className="absolute inset-0 grid-hairlines opacity-40" aria-hidden="true" />
@@ -36,7 +75,7 @@ export default function ProductsBento() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-5 md:grid-flow-dense">
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-5 md:grid-flow-dense">
           {FEATURED.map((p, i) => (
             <Link key={p.slug} href="/products" className={`group block ${SPANS[i]}`}>
               <SpotlightCard

@@ -5,20 +5,7 @@ import Aurora from "@/components/reactbits/Aurora";
 import SectionLabel from "@/components/ui/SectionLabel";
 import { company } from "@/data/company";
 
-const MATERIALS = [
-  "Aluminium Bus Bar",
-  "Copper Bus Bar",
-  "Aluminium Flat Bar",
-  "Copper Flat Bar",
-  "Aluminium Strip",
-  "Copper Strip",
-  "Aluminium Rods",
-  "Copper Rods",
-  "Aluminium Sheets",
-  "Copper Sheets",
-  "GI Strip",
-  "Other / not sure yet",
-];
+const MATERIALS = [...company.products.map((product) => product.name), "Other / not sure yet"];
 
 export default function Contact() {
   const [form, setForm] = useState({ name: "", phone: "", material: MATERIALS[0], qty: "", message: "" });
@@ -96,7 +83,7 @@ export default function Contact() {
     <section id="contact" className="relative py-16 sm:py-24 overflow-hidden">
       {/* Aurora backdrop */}
       <div className="absolute inset-0 opacity-[0.35] mix-blend-screen">
-        <Aurora colorStops={["#7A2E10", "#FF5A1F", "#3A2A20"]} amplitude={0.8} blend={0.55} speed={0.7} />
+        <Aurora colorStops={["#7A2E10", "#FF5A1F", "#3A2A20"]} />
       </div>
       <div className="absolute inset-0 bg-gradient-to-b from-ink via-transparent to-ink" aria-hidden="true" />
 

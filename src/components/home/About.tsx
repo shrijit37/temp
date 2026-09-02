@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import ScrollReveal from "@/components/reactbits/ScrollReveal";
+import { gsap, useGSAP } from "@/lib/gsap";
 import SectionLabel from "@/components/ui/SectionLabel";
 import { company } from "@/data/company";
 
@@ -14,6 +14,31 @@ const INLINE_IMAGES = [
 
 export default function About() {
   const ref = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      const copy = ref.current?.querySelector<HTMLElement>("[data-about-copy]");
+      if (!copy) return;
+
+      gsap.fromTo(
+        copy,
+        { opacity: 0.08, filter: "blur(2px)", rotate: 3, transformOrigin: "0% 50%" },
+        {
+          opacity: 1,
+          filter: "blur(0px)",
+          rotate: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: copy,
+            start: "top bottom-=20%",
+            end: "bottom bottom",
+            scrub: true,
+          },
+        }
+      );
+    },
+    { scope: ref }
+  );
 
   return (
     <section ref={ref} className="relative py-16 sm:py-24 overflow-hidden">
@@ -57,14 +82,12 @@ export default function About() {
 
         <div className="mt-10 sm:mt-14 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
           <div className="lg:col-span-7">
-            <ScrollReveal
-              containerClassName="!my-0 text-left"
-              textClassName="!text-[clamp(1.15rem,2vw,1.5rem)] !leading-[1.7] !font-light !text-steel"
-              baseOpacity={0.08}
-              blurStrength={2}
+            <p
+              data-about-copy
+              className="my-0 text-[clamp(1.15rem,2vw,1.5rem)] leading-[1.7] font-light text-steel"
             >
               {company.about}
-            </ScrollReveal>
+            </p>
           </div>
 
           <div className="lg:col-span-5">

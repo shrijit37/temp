@@ -13,8 +13,9 @@ const links = [
 
 export default function Nav() {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
+  const [openPath, setOpenPath] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
+  const open = openPath === pathname;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -29,8 +30,6 @@ export default function Nav() {
       document.body.style.overflow = "";
     };
   }, [open]);
-
-  useEffect(() => setOpen(false), [pathname]);
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
@@ -50,7 +49,7 @@ export default function Nav() {
         >
           <Link
             href="/"
-            onClick={() => setOpen(false)}
+            onClick={() => setOpenPath(null)}
             className="flex items-center gap-2 group"
           >
             <span className="grid place-items-center w-9 h-9 rounded-full bg-molten text-ink font-black text-sm tracking-tight group-hover:rotate-6 transition-transform duration-300">
@@ -88,7 +87,7 @@ export default function Nav() {
               Get a Quote
             </Link>
             <button
-              onClick={() => setOpen(!open)}
+              onClick={() => setOpenPath(open ? null : pathname)}
               aria-label="Toggle menu"
               aria-expanded={open}
               className="md:hidden grid place-items-center w-10 h-10 rounded-full border border-line-strong text-bone"
@@ -126,7 +125,7 @@ export default function Nav() {
             <Link
               key={l.href}
               href={l.href}
-              onClick={() => setOpen(false)}
+              onClick={() => setOpenPath(null)}
               style={{ transitionDelay: open ? `${120 + i * 60}ms` : "0ms" }}
               className={`font-display font-black uppercase tracking-tight text-[clamp(2.5rem,10vw,4rem)] leading-none py-2 transition-all duration-500 ${
                 open ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"

@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
+import { maybeAutoReloadOnChunkError } from "@/lib/chunk-reload";
 
 export default function ErrorBoundary({
   error,
@@ -11,22 +12,7 @@ export default function ErrorBoundary({
   reset: () => void;
 }) {
   useEffect(() => {
-    // Detect ChunkLoadErrors (common when mobile users wake an old tab after a redeployment)
-    const isChunkError =
-      error.message?.includes("Loading chunk") ||
-      error.message?.includes("Failed to fetch dynamically imported module") ||
-      error.name === "ChunkLoadError";
-
-    if (isChunkError && typeof window !== "undefined") {
-      const reloadKey = "dmc_chunk_reload";
-      const lastReload = sessionStorage.getItem(reloadKey);
-      const now = Date.now();
-      // Auto-reload once within a 10s window to seamlessly pull latest deployment chunks
-      if (!lastReload || now - parseInt(lastReload, 10) > 10000) {
-        sessionStorage.setItem(reloadKey, now.toString());
-        window.location.reload();
-      }
-    }
+    maybeAutoReloadOnChunkError(error, "dmc_chunk_reload");
   }, [error]);
 
   return (
