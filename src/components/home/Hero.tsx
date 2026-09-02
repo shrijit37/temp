@@ -12,29 +12,12 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 export default function Hero() {
   const rootRef = useRef<HTMLElement>(null);
-  const imgWrapRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
-      // Right visual: scale + fade scrub (image scale & fade paradigm)
-      gsap.fromTo(
-        imgWrapRef.current,
-        { scale: 0.8, opacity: 0.4 },
-        {
-          scale: 1,
-          opacity: 1,
-          ease: "none",
-          scrollTrigger: {
-            trigger: imgWrapRef.current,
-            start: "top bottom",
-            end: "top 30%",
-            scrub: true,
-          },
-        }
-      );
-      // Left intro: soft rise
+      // Intro soft rise
       const rises = rootRef.current?.querySelectorAll("[data-hero-rise]");
-      if (rises) {
+      if (rises && rises.length > 0) {
         gsap.fromTo(
           rises,
           { y: 36, opacity: 0 },

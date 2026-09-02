@@ -79,7 +79,7 @@ export const company: CompanyData = {
       tagline: "Hindalco-make electrical grade bus bars with bending guarantee",
       specs: ["Hindalco make / electrical grade", "Rectangular bus bars, custom lengths", "HSN 7604 — bars & rods", "Bending guarantee & cut-to-size"],
       applications: "Busbar trunking, switchgear, distribution panels, transformer terminals, earthing systems",
-      image: "/images/prod-alu-busbar.jpg",
+      image: "/images/prod-alu-busbar-bundle.jpg",
     },
     {
       slug: "copper-bus-bar",
@@ -99,7 +99,7 @@ export const company: CompanyData = {
       tagline: "Clean, sharp-edged electrical & commercial flat bars",
       specs: ["Electrical & commercial grade", "Wide size range in stock", "HSN 7604 — flat bars & profiles", "Cut-to-length service available"],
       applications: "Earthing, busbar risers, structural supports, panel links and fabrication",
-      image: "/images/prod-alu-flat.jpg",
+      image: "/images/prod-alu-flat-bars.jpg",
     },
     {
       slug: "copper-strip",
@@ -129,7 +129,7 @@ export const company: CompanyData = {
       tagline: "Precision copper flats for heavy-current connections",
       specs: ["ETP grade copper", "HSN 7409 — flat bars & strip", "Wide width & thickness range", "Cut-to-length service"],
       applications: "Busbar connections, switchgear, earthing, transformer links and panel manufacturing",
-      image: "/images/prod-copper-busbar.jpg",
+      image: "/images/prod-copper-flat.jpg",
     },
     {
       slug: "aluminium-rods",
@@ -149,7 +149,7 @@ export const company: CompanyData = {
       tagline: "Solid copper round rods for electrical and grounding works",
       specs: ["Round rod profiles", "ETP grade copper", "High thermal & electrical conductivity", "Cut-to-length available"],
       applications: "Earthing electrodes, lightning protection, electrical machining and connectors",
-      image: "/images/prod-copper-plate.jpg",
+      image: "/images/prod-copper-rods.jpg",
     },
     {
       slug: "aluminium-sheets",
@@ -204,7 +204,7 @@ export const company: CompanyData = {
     phone: "+91 97117 07511",
     phone2: "+91 99992 39072",
     email: "sales@delhimetalcorporation.com",
-    address: "2574/10, Ground Floor, Gali No. 10 (Chitragupta Road), Chuna Mandi, Paharganj, New Delhi – 110055",
+    address: "2571/10, Ground Floor, Gali No. 10 (Chitragupta Road), Chuna Mandi, Paharganj, New Delhi – 110055",
     hours: "Mon – Sat · 10:00 – 20:00 · Sun closed",
     gstin: "07AAQFD8445E1Z6",
     contactPerson: "KL Sharma & Aditya Kaushik",

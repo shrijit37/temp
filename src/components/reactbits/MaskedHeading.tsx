@@ -115,7 +115,9 @@ const MaskedHeading: React.FC<MaskedHeadingProps> = ({
     sync();
     const ro = new ResizeObserver(sync);
     ro.observe(root);
-    if (document.fonts?.ready) document.fonts.ready.then(sync).catch(() => {});
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(sync).catch(() => { });
+    }
 
     let raf = 0;
     let last = performance.now();
@@ -209,11 +211,10 @@ const MaskedHeading: React.FC<MaskedHeadingProps> = ({
     };
   }, [words]);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const TagAny = tag as any;
+  const Tag = (tag || "h2") as ElementType;
 
   return (
-    <TagAny
+    <Tag
       ref={rootRef}
       className={`relative w-full m-0 p-0 antialiased [text-wrap:balance] ${className}`.trim()}
       style={{
@@ -221,7 +222,7 @@ const MaskedHeading: React.FC<MaskedHeadingProps> = ({
         fontWeight: weight,
         letterSpacing: `${tracking}em`,
         lineHeight,
-        ...style
+        ...style,
       }}
     >
       <span ref={measureRef} className="text-transparent">
@@ -268,7 +269,7 @@ const MaskedHeading: React.FC<MaskedHeadingProps> = ({
           </span>
         </span>
       </span>
-    </TagAny>
+    </Tag>
   );
 };
 

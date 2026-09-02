@@ -4,7 +4,6 @@ import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import TextPressure from "@/components/reactbits/TextPressure";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -30,11 +29,9 @@ export default function Statement() {
   return (
     <section ref={ref} className="relative py-16 sm:py-24 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 sm:px-10">
-        <TextPressure
-          text="The conductor behind India's power"
-          textColor="#9AA0A8"
-          minFontSize={20}
-        />
+        <h2 className="font-display font-black uppercase tracking-tight leading-[0.95] text-[clamp(2rem,6vw,5rem)] text-steel text-center">
+          The conductor behind India&apos;s power
+        </h2>
         <div className="mt-8 text-center font-mono text-[11px] sm:text-xs uppercase tracking-[0.3em] text-steel-dim">
           Aluminium · Copper · Since day one
         </div>

@@ -16,7 +16,7 @@
   --color-error: #ef4444;
   --color-error-light: #fca5a5;
 
-  --font-display: "Satoshi", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Satoshi", var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
   --animate-marquee: marquee 32s linear infinite;
